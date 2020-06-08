@@ -16,16 +16,20 @@ neuron
 
 Install NEURON and python: https://neuron.yale.edu/neuron/getstd
 
-Steps!
+## Steps!
 
 When you have downloaded the folder and installed NEURON and python modules, you have to start by running nrnivmodl in the folder.
 Then you can either run:
-
+```python
 python ionChannelAnalysis.py 
 
+```
 for running simulations on individual ion channel models. And run:
 
+```python
 python manualTuningModel.py
+
+```
 
 for running the whole model.
 
