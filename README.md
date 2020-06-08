@@ -5,7 +5,10 @@ One can either do a git clone https://github.com/jofrony/NEURON-practice.git or 
 
 To run the code you need some extra python modules:
 
+```python
 pip install packagename
+
+```
 
 numpy
 json
