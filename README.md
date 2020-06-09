@@ -36,7 +36,7 @@ python manualTuningModel.py
 
 for running the whole model. In "modelParameter.txt", one can change the parameters which are then loaded into the model.
 
-
+If you want to analyse the morphology you can use morphologyAnalysis.py, which also contains additional links to NeuroM software. 
 
 
 
