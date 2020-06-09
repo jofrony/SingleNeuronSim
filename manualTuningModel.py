@@ -2,28 +2,21 @@
 '''
 ############################################################################################################################################################
 
-The model is defined by its morphology file, protocol file and model file (which contains the ion channel models, their placements and conductances.)
+The model is defined by its morphology file and model file (which contains the ion channel models, their placements and conductances.)
 
 Installing Python+NEURON - https://neuron.yale.edu/neuron/getstd
 
 Check out the python file,Neuron_model_extended.py, in the folder to see how the files are loaded and 
-https://github.com/BlueBrain/BluePyOpt/tree/master/bluepyopt/ephys (if you are interested in how it is loaded into the simulator, mechanisms.py, morphology.py and parameters.py)
+https://github.com/BlueBrain/BluePyOpt/tree/master/bluepyopt/ephys (if you are interested in how it is loaded into the simulator, more specifically the mechanisms.py, morphology.py and parameters.py)
 
 Neuron Tutorial
 https://neuron.yale.edu/neuron/static/docs/neuronpython/index.html
-
-Morphology tool for visualising 
-https://github.com/BlueBrain/NeuroM (Some code on visualisation is included further down)
-
 
                             
 ############################################################################################################################################################
      
 '''
 from Neuron_model_extended import NeuronModel
-import neurom as nm
-from neurom import viewer
-from neurom.view import plotly
 import numpy as np
 import json
 import matplotlib.pyplot as plt
@@ -39,42 +32,6 @@ mechanismsFile = "mechanisms.json"
 
 packageModel(modelFile) # Packaging the manual tuning file modelParameter.txt into the two files for NeuroModel: parameters.json and mechanisms.json
 
-
-'''
- NeuroM https://github.com/BlueBrain/NeuroM
-
-'''
-
-nrn = nm.load_neuron(morphologyFile)
-
-'''
-Examples of features which you can extract from NeuroM - You can find more on https://github.com/BlueBrain/NeuroM/blob/fd64d2a45644119fa01e61fe8f6a701113deb78c/neurom/features/__init__.py
-
-You can look into the swc-file in the morphology folder - the structure of the file is explained, http://www.neuronland.org/NLMorphologyConverter/MorphologyFormats/SWC/Spec.html
-
-'''
-total_area_per_neurite = nm.get('total_area_per_neurite', nrn, neurite_type=nm.BASAL_DENDRITE)
-volume_basal_dendrite = nm.get('neurite_volumes', nrn, neurite_type=nm.BASAL_DENDRITE)
-soma_surface_areas = nm.get('soma_surface_areas', nrn)
-dendrite_length = nm.get('neurite_lengths', nrn, neurite_type=nm.BASAL_DENDRITE)
-
-dend_area_total = sum(total_area_per_neurite)
-dend_length_total = sum(dendrite_length)
-soma_area = soma_surface_areas[0]
-
-#fig, ax = plotly.draw(nrn, plane='xy')
-#fig, ax = plotly.draw(nrn)
-
-
-print("soma area : ",soma_area)
-print("dend area : ",dend_area_total)
-print("dendritic length : ",dend_length_total)
-
-
-'''
-If you want to do other measure see, https://notebooks.gesis.org/binder/jupyter/user/bluebrain-neurom-xhl01s7f/notebooks/tutorial/getting_started.ipynb
-
-'''
 infoCell = dict()
 
 modelCell=NeuronModel(param_file=parameterFile,morph_file=morphologyFile,mech_file=mechanismsFile,cell_name="TEST")
