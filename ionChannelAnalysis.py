@@ -18,7 +18,7 @@ imorphology.input("morphology/MTC180800A-IDB-cor-rep.swc")
 morphology_importer = sim.neuron.h.Import3d_GUI(imorphology, 0)
 morphology_importer.instantiate(icell)
 
-But then you have to iterate through the whole morphology to add all the ion channels using  for sec in new_sim.neuron.h.allsec()
+But then you have to iterate through the whole morphology to add all the ion channels using  for sec in simulator.neuron.h.allsec()
     
 '''
 
@@ -27,7 +27,7 @@ channel = "naf_ms"  #Name of the channel you want to analyse
 soma=neuron.h.Section(name='soma') # Create a soma to start with, you can also create a dendrite and then connect them via "dend.connect(soma(1))"
 soma.insert(channel) # Insert channel into soma, by repeating this command for different channels you can add as many as you like
 setattr(soma,"gbar_"+channel,1) #Set conductance to 1 nS - for units used in neuron - https://www.neuron.yale.edu/neuron/static/docs/units/unitchart.html
-neuron.h.celsius=35 #In most experiments we use later on we use 35 celsius, 
+neuron.h.celsius=35 #In most experiments we use 35 celsius, 
 
 #soma.ek=-100 #Using Nernest equation, we found that the reversal potential in our experiments is around -100 mV for potassium, if your channel is potassium uncomment this line
 soma.ena=50 # Same as above but for sodium, if you have both potassium and sodium channels, both these lines should be uncommented. 
@@ -63,12 +63,15 @@ for vinit in voltage:
 
     neuron.h.run()
 
-    print(soma.v) # You can compare the voltage you set with the voltage clamp and the one you observe in the some, change the stim.rs (resistance) and you will see an effect
+    print(soma.v) # You can compare the voltage you set with the voltage clamp and the one you observe in the soma, change the stim.rs (resistance) and you will see an effect
 
 
 print(max(map(abs,current))) # Absolute value of current, you can choose to plot it in another way
 
 plt.plot(voltage,current, label=channel)
+plt.title(channel)
+plt.xlabel("Membrane potential (mV)")
+plt.ylabel("Current (nA)")
 plt.legend()
 plt.savefig("IonChannelOutput/Output-Test.png")
 plt.show()

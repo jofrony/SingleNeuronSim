@@ -46,7 +46,7 @@ def packageModel(handTuneFile):
 
         if len(potentialChannel)>2:
 
-            print(potentialChannel)
+            
 
             ionChannelName = "_".join(potentialChannel[1:])
 

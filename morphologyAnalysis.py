@@ -5,8 +5,6 @@ Morphology tool for visualising
 https://github.com/BlueBrain/NeuroM (Some code on visualisation is included further down)
 
 
-
-
 #######################################################################
 
 '''
