@@ -51,6 +51,6 @@ fig, ax = plotly.draw(nrn)
 
 
 '''
-If you want to do other forms of analysis check out, https://notebooks.gesis.org/binder/jupyter/user/bluebrain-neurom-xhl01s7f/notebooks/tutorial/getting_started.ipynb
+If you want to do other forms of analysis check out, https://github.com/BlueBrain/NeuroM/blob/master/tutorial/getting_started.ipynb
 
 '''
