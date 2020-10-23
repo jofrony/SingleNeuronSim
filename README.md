@@ -12,7 +12,7 @@ pip install packagename
 
 numpy
 json
-bluepyop
+bluepyopt
 neurom
 matplotlib
 neuron
