@@ -12,7 +12,7 @@ pip install packagename
 
 numpy
 json
-bluepyop
+bluepyopt
 neurom
 matplotlib
 neuron
@@ -38,5 +38,5 @@ for running the whole model. In "modelParameter.txt", one can change the paramet
 
 If you want to analyse the morphology you can use morphologyAnalysis.py, which also contains additional links to NeuroM software. 
 
-
+[![DOI](https://zenodo.org/badge/270691300.svg)](https://zenodo.org/badge/latestdoi/270691300)
 
