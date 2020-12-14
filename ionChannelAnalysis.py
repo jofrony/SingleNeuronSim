@@ -22,7 +22,7 @@ But then you have to iterate through the whole morphology to add all the ion cha
     
 '''
 
-channel = "naf_ms"  #Name of the channel you want to analyse
+channel = "naf"  #Name of the channel you want to analyse
 
 soma=neuron.h.Section(name='soma') # Create a soma to start with, you can also create a dendrite and then connect them via "dend.connect(soma(1))"
 soma.insert(channel) # Insert channel into soma, by repeating this command for different channels you can add as many as you like

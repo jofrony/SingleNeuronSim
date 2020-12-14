@@ -36,6 +36,8 @@ infoCell = dict()
 
 modelCell=NeuronModel(param_file=parameterFile,morph_file=morphologyFile,mech_file=mechanismsFile,cell_name="TEST")
 
+
+
 simulator=ephys.simulators.NrnSimulator(cvode_active=False) # In here is neuron.h., simulator.neuron.h = neuron.h. in common NEURON+python syntax
 
 modelCell.instantiate(sim=simulator)  
@@ -51,6 +53,7 @@ vSave = simulator.neuron.h.Vector()
 for isec, sec in enumerate(modelCell.icell.soma):
 
 	 for seg in sec:
+                  
                   vSave.record(getattr(seg,'_ref_v'))
                   infoCell.update({"soma_access":seg})
                

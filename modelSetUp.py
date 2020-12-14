@@ -37,17 +37,19 @@ def packageModel(handTuneFile):
     mechanism_file.update({"axonal" : ["pas"]})
     
     for index in range(len(paraML)):
-
+        
         potentialChannel=paraML[index]["param_name"].split("_")
         
         parameter_file.append(paraML[index])
 
 
-
+        import pdb
+        pdb.set_trace()
+        
         if len(potentialChannel)>2:
 
             
-
+            
             ionChannelName = "_".join(potentialChannel[1:])
 
             if ionChannelName not in mechanism_file[paraML[index]["sectionlist"]]:
