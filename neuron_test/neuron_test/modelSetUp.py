@@ -32,7 +32,7 @@ def packageModel(handTuneFile):
                             "value": dataLine[1]})
 
 
-    mechanism_file.update({"somatic" : ["pas","cadyn_fs"]})
+    mechanism_file.update({"soma" : ["pas","cadyn_fs"]})
     mechanism_file.update({"basal" : ["pas"]})
     mechanism_file.update({"axonal" : ["pas"]})
     
@@ -42,9 +42,6 @@ def packageModel(handTuneFile):
         
         parameter_file.append(paraML[index])
 
-
-        import pdb
-        pdb.set_trace()
         
         if len(potentialChannel)>2:
 

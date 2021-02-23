@@ -1,1 +1,1 @@
-{"somatic": ["pas", "cadyn_fs"], "basal": ["pas"], "axonal": ["pas"]}
+{"soma": ["pas", "cadyn_fs", "hcn12_ch", "kaf_ms", "cat33_ms"], "basal": ["pas", "hcn12_ch"], "axonal": ["pas"]}
