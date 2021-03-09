@@ -1,4 +1,5 @@
 import json
+import numpy as np
 
 class defineTestmodel:
 
@@ -21,8 +22,8 @@ class defineTestmodel:
 
                 self.param_definition_optimisation.append({'param_name' : param,
                                                            'type' : 'global',
-                                                           'bounds' : [value*variation[0],\
-                                                                       value*variation[1]]})
+                                                           'bounds' : sorted([np.round(value*variation[0],8),\
+                                                                              np.round(value*variation[1],8)])})
             else:
                 self.param_definition_optimisation.append({'param_name' : param,
                                           'type' : 'global',
@@ -42,8 +43,8 @@ class defineTestmodel:
 
                 self.param_definition_optimisation.append({'param_name' : param,
                                                            'type' : 'section',
-                                                           'bounds' : [value*variation[0],\
-                                                                       value*variation[1]],
+                                                           'bounds' : sorted([np.round(value*variation[0],8),\
+                                                                       np.round(value*variation[1],8)]),
                                                            'sectionlist' : section,
                                                            'dist_type' : 'uniform'})
             else:
@@ -65,8 +66,8 @@ class defineTestmodel:
 
                 self.param_definition_optimisation.append({'param_name' :'_'.join([variable,param]),
                                          'type' : 'range',
-                                         'bounds' : [value*variation[0],\
-                                                     value*variation[1]],
+                                         'bounds' : sorted([np.round(value*variation[0],8),\
+                                                     np.round(value*variation[1],8)]),
                                          'sectionlist' : section,
                                          'dist_type' : 'uniform'})
             else:
