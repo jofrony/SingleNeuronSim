@@ -1,0 +1,13 @@
+from singleneuronsim.Neuron_model_extended import NeuronModel
+
+
+
+class VariationSim:
+
+    def __init__(mechanisms,parameters,morphology):
+
+        pass
+
+    def set_gidlist(self, gidlist):
+
+        self.gidlist = gidlist

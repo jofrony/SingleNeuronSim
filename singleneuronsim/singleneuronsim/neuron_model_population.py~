@@ -1,0 +1,100 @@
+from mpi4py import MPI
+from neuron import h
+from singleneuronsim.Neuron_model_extended import NeuronModel
+import os
+
+
+
+class NeuronModelPopulation:
+
+    def __init__(mechanisms,parameters,morphology,variations):
+
+        pass
+
+    def set_gidlist(self, gidlist):
+
+        self.gidlist = gidlist
+
+    def set_gids(self):
+
+        self.comm = MPI.COMM_WORLD
+        self.rank = self.comm.Get_rank()
+        self.size = self.comm.Get_size()
+
+        pc = h.ParallelContext()
+        self.pc = pc
+        self.gidlist = []
+
+        for i in range(int(pc.id()), self.modulation_setup["population"], int(pc.nhost())):
+            self.gidlist.append(i)
+
+
+    def start_logging(self):
+
+        directory = "logfiles"
+
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        logging.basicConfig(filename="logfiles/log-file-" + str(self.gidlist[0]) + ".log", level=logging.DEBUG)
+
+
+    def setup_neurons(self):
+        logging.info('This worker : ' + str(len(self.gidlist)))
+
+        for k in range(len(self.gidlist)):
+
+            self.neurons[k] = NeuronModel(cell_name='', morph_file=morphology, mech_file=mechanisms,param_file=parameters, id_num)
+
+
+    def instantiate(self, sim):
+
+        self.sim = sim
+
+        for i, cell in self.neurons.items():
+            self.neurons[i].instantiate(sim=self.sim)
+
+    def time_save(self):
+
+        self.t_save = self.sim.neuron.h.Vector()
+        self.t_save.record(self.sim.neuron.h._ref_t)
+
+        return self.t_save
+
+    def voltage_save(self):
+
+        for i, cell in self.neurons.items():
+            v = self.sim.neuron.h.Vector()
+            v.record(getattr(cell.icell.soma[0](0.5), '_ref_v'))
+            self.v_save[i] = v
+
+        return self.v_save
+
+    def run(self,tstop):
+
+        self.sim.neuron.h.tstop = tstop
+        self.sim.neuron.h.run()
+
+
+    def save_voltages(self, downsample=1):
+
+        world_voltage = self.comm.gather(self.v_save, root=0)
+
+        self.pc.barrier()
+
+        if self.rank == 0:
+
+            voltage_saves = list()
+
+            voltage_saves.append(np.array(list(self.t_save))[::downsample])
+
+            for volt in world_voltage:
+                for k, volt_recording in volt.items():
+                    volt_array = np.array(list(volt_recording))
+                    voltage_saves.append(volt_array[::downsample])
+
+            voltage_saves.append(np.array(list(self.control_v))[::downsample])
+
+            np.savetxt(self.output_dir / "voltages.csv", voltage_saves)
+
+    

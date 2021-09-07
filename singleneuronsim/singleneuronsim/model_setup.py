@@ -1,0 +1,128 @@
+import json
+import numpy as np
+
+class DefineModel:
+
+    def __init__(self, name):
+        self.name = name
+        self.param_definition = list()
+        self.param_definition_variation = list()
+        self.mechanisms_definition = dict()
+        self.mechanisms_loaded = None
+        
+    def load_mechanisms(self,mechanisms):
+
+        with open(mechanisms,'r') as f:
+            self.mechanisms_loaded = json.load(f)
+
+        self.mechanisms_definition = self.mechanisms_loaded
+
+    def load_parameters(self,parameters,id_num):
+
+        with open(parameters,'r') as f:
+            param_definition = json.load(f)[id_num]
+
+        for p in param_definition:
+
+            if 'morphology' not in p.keys():
+                self.param_definition.append(p)
+                
+        
+    def param(self,param,value,variable=None,type_param=None, section=None):
+        
+        
+        if type_param == 'global':
+            self.param_definition.append({'param_name' : param,
+                                          'type' : 'global',
+                                          'value' : value})              
+                
+
+
+        elif type_param == 'section':
+            self.param_definition.append({'param_name' : param,
+                                         'type' : 'section',
+                                         'value' : value,
+                                         'sectionlist' : section,
+                                         'dist_type' : 'uniform'})                
+
+        elif type_param == 'range':
+            self.param_definition.append({'param_name' :'_'.join([variable,param]),
+                                         'type' : 'range',
+                                         'value' : value,
+                                         'sectionlist' : section,
+                                         'dist_type' : 'uniform'})
+                            
+
+        self.mechanism_add(param,section)
+
+    def variation(self,param,variable,type_param,section,variation):
+
+        if len(self.param_definition_variation) == 0:
+
+            for k in range(len(variation)):
+                self.param_definition_variation.append(self.param_definition.copy())
+    
+        for i in range(len(variation)):
+
+            if type_param == 'global':
+                self.param_definition_variation[i].append({'param_name' : param,
+                                      'type' : 'global',
+                                      'value' : variation[i]})              
+
+
+
+            elif type_param == 'section':
+                self.param_definition_variation[i].append({'param_name' : param,
+                                     'type' : 'section',
+                                     'value' : variation[i],
+                                     'sectionlist' : section,
+                                     'dist_type' : 'uniform'})                
+
+            elif type_param == 'range':
+                self.param_definition_variation[i].append({'param_name' :'_'.join([variable,param]),
+                                     'type' : 'range',
+                                     'value' : variation[i],
+                                     'sectionlist' : section,
+                                     'dist_type' : 'uniform'})
+
+        self.mechanism_add(param,section)
+              
+    def dynamic_handling(self,param,section):
+
+        self.mechanism_add(param,section)
+        
+    def mechanism_add(self,param,section):
+
+        if section in self.mechanisms_definition.keys():
+
+            if param not in self.mechanisms_definition[section]:
+                self.mechanisms_definition[section].append(param)
+
+        else:
+            self.mechanisms_definition.update({section : list()})
+            self.mechanisms_definition[section].append(param)
+
+
+    def save_set_up(self,save_opt=False):
+
+        parameters="config/parameters.json"
+        parameters_opt="config/optimisation_parameters.json"
+        mechanism="config/mechanisms.json"
+
+        with open(mechanism,"w") as mechs:
+            json.dump(self.mechanisms_definition,mechs,indent=4)
+
+        with open(parameters,"w") as param:
+            json.dump(self.param_definition,param,indent=4)
+            
+
+        if save_opt:
+            with open(parameters_opt,"w") as param_opt:
+                json.dump(self.param_definition_variation,param_opt, indent=4)
+
+
+
+
+        
+        
+        
