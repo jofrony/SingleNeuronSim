@@ -1,14 +1,32 @@
 import json
 import numpy as np
 
-class defineTestmodel:
+class DefineTestmodel:
 
     def __init__(self, name):
         self.name = name
         self.param_definition = list()
         self.param_definition_optimisation = list()
         self.mechanisms_definition = dict()
+        self.mechanisms_loaded = None
+        
+    def load_mechanisms(self,mechanisms):
 
+        with open(mechanisms,'r') as f:
+            self.mechanisms_loaded = json.load(f)
+
+        self.mechanisms_definition = self.mechanisms_loaded
+
+    def load_parameters(self,parameters,id_num):
+
+        with open(parameters,'r') as f:
+            param_definition = json.load(f)[id_num]
+
+        for p in param_definition:
+
+            if 'morphology' not in p.keys():
+                self.param_definition.append(p)
+                
         
     def param(self,param,value,variable=None,type_param=None, section=None,variation=None):
         
@@ -88,11 +106,14 @@ class defineTestmodel:
     def mechanism_add(self,param,section):
 
         if section in self.mechanisms_definition.keys():
-            self.mechanisms_definition[section].append(param)
+
+            if param not in self.mechanisms_definition[section]:
+                self.mechanisms_definition[section].append(param)
 
         else:
             self.mechanisms_definition.update({section : list()})
             self.mechanisms_definition[section].append(param)
+
 
     def save_set_up(self,save_opt=False):
 
